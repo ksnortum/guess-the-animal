@@ -6,12 +6,12 @@ import java.time.temporal.ChronoUnit;
 public class Greeter {
     public void greeting() {
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime morningStart = now.withHour(5);
-        LocalDateTime morningEnd = now.withHour(12);
-        LocalDateTime afternoonEnd = now.withHour(18); // 6:00 pm
-        LocalDateTime midnight = now.withHour(0);
+        LocalDateTime morningStart = now.withHour(5).withMinute(0);
+        LocalDateTime morningEnd = now.withHour(12).withMinute(0);
+        LocalDateTime afternoonEnd = now.withHour(18).withMinute(0);
+        LocalDateTime midnight = now.withHour(0).withMinute(0);
         LocalDateTime midnightTomorrow = midnight.plus(1, ChronoUnit.DAYS);
-        LocalDateTime lateNightEnd = now.withHour(3);
+        LocalDateTime lateNightEnd = now.withHour(3).withMinute(0);
 
         if (now.isAfter(morningStart) && now.isBefore(morningEnd)) {
             System.out.println("Good morning");
@@ -24,5 +24,7 @@ public class Greeter {
         } else {
             System.out.println("Hi, Early Bird");
         }
+
+        System.out.println();
     }
 }

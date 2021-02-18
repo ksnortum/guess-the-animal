@@ -15,6 +15,7 @@ public class Salutations {
     );
 
     public void goodbye() {
+        System.out.println();
         System.out.println(goodbyes.get(random.nextInt(goodbyes.size())));
     }
 }

@@ -6,11 +6,11 @@ import animals.model.ClarifyingPhrase;
 import animals.utils.Inputer;
 
 public class AnimalConfirmer {
-    public Animal getAnimal() {
-        String animalPhrase = Inputer.nextString("Please enter an animal: ");
+    public Animal getAnimal(String ordinal) {
+        String animalPhrase = "";
 
-        if (animalPhrase.isBlank()) {
-            return new Animal();
+        while (animalPhrase.isBlank()) {
+            animalPhrase = Inputer.nextString(String.format("Enter the %s animal: ", ordinal));
         }
 
         animalPhrase = animalPhrase.strip();
@@ -24,14 +24,14 @@ public class AnimalConfirmer {
         String prompt = String.format("Is it %s %s?",
                 animal.getArticle().getWord(), animal.getName());
         String response = Inputer.nextString(prompt);
-        boolean isYes = Response.parseYes(response);
-        boolean isNo = Response.parseNo(response);
+        boolean isYes = Response.isYes(response);
+        boolean isNo = Response.isNo(response);
 
         while (!isYes && !isNo) {
             prompt = ClarifyingPhrase.nextPhrase();
             response = Inputer.nextString(prompt);
-            isYes = Response.parseYes(response);
-            isNo = Response.parseNo(response);
+            isYes = Response.isYes(response);
+            isNo = Response.isNo(response);
         }
 
         if (isYes) {

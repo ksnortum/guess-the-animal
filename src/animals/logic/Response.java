@@ -15,16 +15,16 @@ public class Response {
             "i don't think so", "yeah no"
     );
 
-    public static boolean parseYes(String response) {
+    public static boolean isYes(String response) {
         final String phrase = prepPhrase(response);
 
         return AFFIRMATIONS.stream().anyMatch(affirmation -> affirmation.equals(phrase));
     }
 
-    public static boolean parseNo(String response) {
+    public static boolean isNo(String response) {
         final String phrase = prepPhrase(response);
 
-        return NEGATIONS.stream().anyMatch(affirmation -> affirmation.equals(phrase));
+        return NEGATIONS.stream().anyMatch(negation -> negation.equals(phrase));
     }
 
     private static String prepPhrase(String phrase) {

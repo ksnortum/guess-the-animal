@@ -20,4 +20,8 @@ public class Animal {
     public Article getArticle() {
         return article;
     }
+
+    public String getPhrase() {
+        return String.format("%s %s", article.getWord(), name);
+    }
 }
