@@ -3,59 +3,58 @@ package animals.logic;
 import animals.model.Animal;
 import animals.model.Fact;
 import animals.model.Verb;
+import animals.model.YesNoTree;
 import animals.utils.Inputer;
-import animals.utils.StringUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AnimalDistinguisher {
-    // TODO get list of verbs from Verb
+    // TODO get list of verbs from Verb?
     private static final String FACT_PHRASE_REGEX = "^It (?<verb>can|has|is) (?<fact>[^.!?]+)[.!?]*$";
     private static final Pattern FACT_PHRASE_PATTERN = Pattern.compile(FACT_PHRASE_REGEX, Pattern.CASE_INSENSITIVE);
 
-    public void distinguish(Animal firstAnimal, Animal secondAnimal) {
+    public void distinguish(Animal firstAnimal, Animal secondAnimal, YesNoTree tree) {
         Fact fact = getFact(firstAnimal, secondAnimal);
-        String yesOrNoText = Inputer.nextYesNo(String.format("Is it correct for %s? ",
-                secondAnimal.getPhrase()));
-        boolean isYes = Response.isYes(yesOrNoText);
+        boolean isYes = Inputer.nextYesNo(String.format("Is the statement correct for %s? ", secondAnimal));
         Verb verb = fact.getVerb();
-        String factText = fact.getFact();
+        String factText = fact.getFactText();
         System.out.println("I learned the following facts about animals:");
         System.out.printf(" - The %s %s %s.%n",
                 firstAnimal.getName(),
-                isYes ? verb.getNegative() : verb.getPositive(),
+                isYes ? verb.getNegativeForm() : verb.getPositiveForm(),
                 factText);
         System.out.printf(" - The %s %s %s.%n",
                 secondAnimal.getName(),
-                isYes ? verb.getPositive() : verb.getNegative(),
+                isYes ? verb.getPositiveForm() : verb.getNegativeForm(),
                 factText);
         System.out.println("I can distinguish these animals by asking the question:");
-        System.out.printf(" - %s %s?%n",
-                StringUtils.properCase(verb.getQuestion()),
-                factText);
+        System.out.println(fact.getQuestion());
+        tree.insert(fact, secondAnimal, isYes);
     }
 
-    private Fact getFact(Animal firstAnimal, Animal secondAnimal) {
+    public Fact getFact(Animal firstAnimal, Animal secondAnimal) {
         boolean done = false;
         Fact fact = null;
 
         while (!done) {
             System.out.printf("Specify a fact that distinguishes %s from %s.%n",
-                    firstAnimal.getPhrase(), secondAnimal.getPhrase());
-            String factPhrase = Inputer.nextString(
-                    "The sentence should be of the format: 'It can/has/is ...'.");
+                    firstAnimal, secondAnimal);
+            System.out.println("The sentence should satisfy one of the following templates:");
+            System.out.println("- It can ...");
+            System.out.println("- It has ...");
+            System.out.println("- It is a/an ...");
+            String factPhrase = Inputer.nextString("");
             Matcher matcher = FACT_PHRASE_PATTERN.matcher(factPhrase);
 
             if (matcher.matches()) {
                 fact = new Fact(matcher.group("fact"), matcher.group("verb"));
                 done = true;
             } else {
-                // TODO print examples (do they need to be dynamic?)
-                System.out.printf("The examples of a statement:%n" +
-                        " - It can fly%n" +
-                        " - It has horn%n" +
-                        " - It is a mammal%n");
+                System.out.println("The examples of a statement:");
+                System.out.println(" - It can fly");
+                System.out.println(" - It has horn");
+                System.out.println(" - It is a mammal");
             }
         }
 

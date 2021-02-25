@@ -8,14 +8,14 @@ public enum Verb {
     IS("is", "isn't", "is it"),
     NONE("", "", "");
 
-    private final String positive;
-    private final String negative;
-    private final String question;
+    private final String positiveForm;
+    private final String negativeForm;
+    private final String questionForm;
 
-    Verb(String positive, String negative, String question) {
-        this.positive = positive;
-        this.negative = negative;
-        this.question = question;
+    Verb(String positiveForm, String negativeForm, String questionForm) {
+        this.positiveForm = positiveForm;
+        this.negativeForm = negativeForm;
+        this.questionForm = questionForm;
     }
 
     public static Verb parseVerb(String candidate) {
@@ -26,7 +26,7 @@ public enum Verb {
         candidate = candidate.strip().toLowerCase(Locale.ROOT);
 
         for (Verb verb : Verb.values()) {
-            if (candidate.equals(verb.getPositive())) { // TODO or equals negative?
+            if (candidate.equals(verb.getPositiveForm())) {
                 return verb;
             }
         }
@@ -34,15 +34,15 @@ public enum Verb {
         return Verb.NONE;
     }
 
-    public String getPositive() {
-        return positive;
+    public String getPositiveForm() {
+        return positiveForm;
     }
 
-    public String getNegative() {
-        return negative;
+    public String getNegativeForm() {
+        return negativeForm;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getQuestionForm() {
+        return questionForm;
     }
 }

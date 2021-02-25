@@ -1,5 +1,7 @@
 package animals.model;
 
+import java.util.Objects;
+
 public class Animal {
     private final String name;
     private final Article article;
@@ -9,7 +11,7 @@ public class Animal {
     }
 
     public Animal(String name, Article article) {
-        this.name = name;
+        this.name = Objects.requireNonNullElse(name, "");
         this.article = article;
     }
 
@@ -21,7 +23,22 @@ public class Animal {
         return article;
     }
 
-    public String getPhrase() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Animal animal = (Animal) o;
+
+        return name.equals(animal.name) && article == animal.article;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, article);
+    }
+
+    @Override
+    public String toString() {
         return String.format("%s %s", article.getWord(), name);
     }
 }
