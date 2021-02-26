@@ -1,27 +1,43 @@
 package animals.controller;
 
+import animals.logic.CommandLineParser;
 import animals.logic.Greeter;
 import animals.logic.Salutations;
 import animals.model.Animal;
 import animals.model.YesNoTree;
+import animals.persistence.TreeLoader;
+import animals.persistence.TreeWriter;
+
+import java.util.Optional;
 
 public class MainController {
+    CommandLineParser commandLineParser = new CommandLineParser();
     Greeter greeter = new Greeter();
     FirstAnimalController firstAnimalController = new FirstAnimalController();
     GameController gameController = new GameController();
+    TreeWriter writer = new TreeWriter();
     Salutations salutations = new Salutations();
 
-    public void execute() {
+    public void run(String... args) {
+        String fileType = commandLineParser.parseFileType(args);
         greeter.greeting();
-        Animal firstAnimal = firstAnimalController.execute();
+        Optional<YesNoTree> treeOptional = TreeLoader.loadTree(fileType);
         YesNoTree tree = new YesNoTree();
-        tree.firstAnimal(firstAnimal);
+
+        if (treeOptional.isEmpty()) {
+            Animal firstAnimal = firstAnimalController.execute();
+            tree.firstAnimal(firstAnimal);
+        } else {
+            tree = treeOptional.get();
+        }
+
         boolean done = false;
 
         while (!done) {
             done = gameController.execute(tree);
         }
 
+        writer.writeRoot(tree.getRoot(), fileType);
         salutations.goodbye();
     }
 }

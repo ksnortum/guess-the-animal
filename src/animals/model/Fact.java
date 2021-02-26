@@ -1,12 +1,19 @@
 package animals.model;
 
 import animals.utils.StringUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Fact {
-    private final String factText;
-    private final Verb verb;
+    private String factText;
+    private Verb verb;
+
+    public Fact() {
+        this(null, null);
+    }
 
     public Fact(String factText, String verbCandidate) {
         this.factText = Objects.requireNonNullElse(factText, "");
@@ -17,10 +24,19 @@ public class Fact {
         return factText;
     }
 
+    public void setFactText(String factText) {
+        this.factText = factText;
+    }
+
     public Verb getVerb() {
         return verb;
     }
 
+    public void setVerb(Verb verb) {
+        this.verb = verb;
+    }
+
+    @JsonIgnore
     public String getQuestion() {
         return String.format("%s %s?", StringUtils.properCase(verb.getQuestionForm()), factText);
     }

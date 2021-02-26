@@ -1,10 +1,13 @@
 package animals.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Animal {
-    private final String name;
-    private final Article article;
+    private String name;
+    private Article article;
 
     public Animal() {
         this("", Article.NONE);
@@ -19,8 +22,16 @@ public class Animal {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Article getArticle() {
         return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 
     @Override

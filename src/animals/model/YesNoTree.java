@@ -1,5 +1,8 @@
 package animals.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Objects;
 
 public class YesNoTree {
@@ -7,12 +10,17 @@ public class YesNoTree {
     private Node current;
     private boolean firstFact = true;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class Node {
         private Fact fact;
         private Animal animal;
         private Node parent;
         private Node yes;
         private Node no;
+
+        public Node() {
+            this(null, null, null);
+        }
 
         public Node(Fact fact, Animal animal, Node parent) {
             this.fact = fact;
@@ -54,6 +62,7 @@ public class YesNoTree {
             this.no = no;
         }
 
+        @JsonIgnore
         public Node getParent() {
             return parent;
         }
@@ -62,10 +71,12 @@ public class YesNoTree {
             this.parent = parent;
         }
 
+        @JsonIgnore
         public boolean isQuestion() {
             return fact != null;
         }
 
+        @JsonIgnore
         public boolean isAnimal() {
             return !isQuestion();
         }
@@ -97,6 +108,10 @@ public class YesNoTree {
 
     public Node getRoot() {
         return root;
+    }
+
+    public void setRoot(Node root) {
+        this.root = root;
     }
 
     public Node resetTree() {
@@ -151,6 +166,9 @@ public class YesNoTree {
 
     @Override
     public String toString() {
-        return String.format("Tree{%nroot=%s, %ncurrent=%s, %nfirstFact=%s}", root, current, firstFact);
+        return String.format("Tree{%n" +
+                "root=%s, %n" +
+                "current=%s, %n" +
+                "firstFact=%s}", root, current, firstFact);
     }
 }
