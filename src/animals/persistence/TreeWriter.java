@@ -1,7 +1,7 @@
 package animals.persistence;
 
 import animals.logic.ObjectMapperGetter;
-import animals.model.YesNoTree;
+import animals.model.TreeNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -11,7 +11,7 @@ import java.util.Optional;
 public class TreeWriter {
     private static final ObjectMapperGetter getter = new ObjectMapperGetter();
 
-    public void writeRoot(YesNoTree.Node root, String fileType) {
+    public void writeRoot(TreeNode root, String fileType) {
         System.out.println(root); // TODO debug
         String fileName = "animals." + fileType;
         Optional<ObjectMapper> mapperOptional = getter.getMapper(fileType);

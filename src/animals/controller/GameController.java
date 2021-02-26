@@ -3,6 +3,7 @@ package animals.controller;
 import animals.logic.AnimalGetter;
 import animals.logic.AnimalDistinguisher;
 import animals.model.Animal;
+import animals.model.TreeNode;
 import animals.model.YesNoTree;
 import animals.utils.Inputer;
 
@@ -13,7 +14,7 @@ public class GameController {
     public boolean execute(YesNoTree tree) {
         System.out.println("You think of an animal, and I guess it.");
         Inputer.pause("Press enter when you're ready.");
-        YesNoTree.Node current = tree.resetTree();
+        TreeNode current = tree.resetTree();
         boolean done = false;
         boolean exitGame = false;
 

@@ -1,6 +1,7 @@
 package animals.persistence;
 
 import animals.logic.ObjectMapperGetter;
+import animals.model.TreeNode;
 import animals.model.YesNoTree;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -27,10 +28,10 @@ public class TreeLoader {
             return Optional.empty();
         }
 
-        YesNoTree.Node root;
+        TreeNode root;
 
         try {
-            root = mapper.readValue(file, YesNoTree.Node.class);
+            root = mapper.readValue(file, TreeNode.class);
         } catch (IOException e) {
             e.printStackTrace();
             return Optional.empty();
