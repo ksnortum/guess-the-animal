@@ -12,7 +12,6 @@ public class TreeWriter {
     private static final ObjectMapperGetter getter = new ObjectMapperGetter();
 
     public void writeRoot(TreeNode root, String fileType) {
-        System.out.println(root); // TODO debug
         String fileName = "animals." + fileType;
         Optional<ObjectMapper> mapperOptional = getter.getMapper(fileType);
 

@@ -12,7 +12,7 @@ public class Fact {
     private Verb verb;
 
     public Fact() {
-        this(null, null);
+        this(null, "");
     }
 
     public Fact(String factText, String verbCandidate) {

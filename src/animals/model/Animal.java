@@ -15,7 +15,7 @@ public class Animal {
 
     public Animal(String name, Article article) {
         this.name = Objects.requireNonNullElse(name, "");
-        this.article = article;
+        this.article = Objects.requireNonNullElse(article, Article.NONE);
     }
 
     public String getName() {

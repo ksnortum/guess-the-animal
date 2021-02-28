@@ -1,10 +1,13 @@
 package animals.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.Objects;
 
+@JsonIdentityInfo(generator= ObjectIdGenerators.UUIDGenerator.class, property="id")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TreeNode {
     private Fact fact;
@@ -57,7 +60,7 @@ public class TreeNode {
         this.no = no;
     }
 
-    @JsonIgnore
+    //@JsonIgnore
     public TreeNode getParent() {
         return parent;
     }
@@ -67,13 +70,8 @@ public class TreeNode {
     }
 
     @JsonIgnore
-    public boolean isQuestion() {
-        return fact != null;
-    }
-
-    @JsonIgnore
-    public boolean isAnimal() {
-        return !isQuestion();
+    public boolean hasAnAnimal() {
+        return animal != null;
     }
 
     @Override
@@ -95,7 +93,7 @@ public class TreeNode {
         return String.format("TreeNode{fact=%s, animal=%s, parent=%s, yes=%s, no=%s}",
                 fact,
                 animal,
-                parent == null ? "null" : "notNull",
+                parent == null ? "null" : parent.getFact(), // only facts have parents
                 yes == null ? "null" : yes.toString(),
                 no == null ? "null" : no.toString());
     }

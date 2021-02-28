@@ -3,7 +3,19 @@ package animals.model;
 public class YesNoTree {
     private TreeNode root;
     private TreeNode current;
-    private boolean firstFact = true;
+    private boolean firstFact;
+
+    public YesNoTree() {
+        root = null;
+        current = null;
+        firstFact = true;
+    }
+
+    public YesNoTree(TreeNode root) {
+        this.root = root;
+        current = root;
+        firstFact = false;
+    }
 
     public TreeNode getRoot() {
         return root;
@@ -27,8 +39,8 @@ public class YesNoTree {
     }
 
     public void firstAnimal(Animal animal) {
-        current = new TreeNode(null, animal, null);
-        root = current;
+        root = new TreeNode(null, animal, null);
+        current = root;
     }
 
     public void insert(Fact newFact, Animal newAnimal, boolean isYes) {
@@ -36,8 +48,12 @@ public class YesNoTree {
             throw new IllegalStateException("You must call YesNoTree::firstAnimal(Animal) before insert");
         }
 
+        if (newFact == null || newAnimal == null) {
+            throw new IllegalArgumentException("Neither newFact nor newAnimal can be null");
+        }
+
         TreeNode oldParent = current.getParent();
-        TreeNode newFactNode = new TreeNode(newFact, null, current);
+        TreeNode newFactNode = new TreeNode(newFact, null, oldParent);
         TreeNode newAnimalNode = new TreeNode(null, newAnimal, newFactNode);
         current.setParent(newFactNode);
 
@@ -57,7 +73,7 @@ public class YesNoTree {
             }
         }
 
-        if (newFact != null && firstFact) {
+        if (firstFact) {
             root = newFactNode;
             firstFact = false;
         }

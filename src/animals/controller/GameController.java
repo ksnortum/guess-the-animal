@@ -19,7 +19,7 @@ public class GameController {
         boolean exitGame = false;
 
         while (!done) {
-            if (current.isAnimal()) {
+            if (current.hasAnAnimal()) {
                 Animal animal = current.getAnimal();
                 String prompt = String.format("Is it %s?", animal);
                 boolean isYes = Inputer.nextYesNo(prompt);
@@ -35,7 +35,7 @@ public class GameController {
                 isYes = Inputer.nextYesNo("Would you like to play again?");
                 exitGame = !isYes;
                 done = true;
-            } else { // current node is a question
+            } else { // current node is a question (fact)
                 boolean isYes = Inputer.nextYesNo(current.getFact().getQuestion());
 
                 if (isYes) {

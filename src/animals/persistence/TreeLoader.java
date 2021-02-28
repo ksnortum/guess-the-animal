@@ -21,7 +21,6 @@ public class TreeLoader {
         }
 
         ObjectMapper mapper = mapperOptional.get();
-        YesNoTree tree = new YesNoTree();
         File file = new File(fileName);
 
         if (!file.exists()) {
@@ -37,8 +36,7 @@ public class TreeLoader {
             return Optional.empty();
         }
 
-        tree.setRoot(root);
-        tree.setCurrent(root);
+        YesNoTree tree = new YesNoTree(root);
 
         return Optional.of(tree);
     }
