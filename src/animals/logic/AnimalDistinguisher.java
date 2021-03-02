@@ -17,19 +17,7 @@ public class AnimalDistinguisher {
     public void distinguish(Animal firstAnimal, Animal secondAnimal, YesNoTree tree) {
         Fact fact = getFact(firstAnimal, secondAnimal);
         boolean isYes = Inputer.nextYesNo(String.format("Is the statement correct for %s? ", secondAnimal));
-        Verb verb = fact.getVerb();
-        String factText = fact.getFactText();
-        System.out.println("I learned the following facts about animals:");
-        System.out.printf(" - The %s %s %s.%n",
-                firstAnimal.getName(),
-                isYes ? verb.getNegativeForm() : verb.getPositiveForm(),
-                factText);
-        System.out.printf(" - The %s %s %s.%n",
-                secondAnimal.getName(),
-                isYes ? verb.getPositiveForm() : verb.getNegativeForm(),
-                factText);
-        System.out.println("I can distinguish these animals by asking the question:");
-        System.out.println(fact.getQuestion());
+        System.out.println("Wonderful! I've learned so much about animals!");
         tree.insert(fact, secondAnimal, isYes);
     }
 
@@ -40,11 +28,8 @@ public class AnimalDistinguisher {
         while (!done) {
             System.out.printf("Specify a fact that distinguishes %s from %s.%n",
                     firstAnimal, secondAnimal);
-            System.out.println("The sentence should satisfy one of the following templates:");
-            System.out.println("- It can ...");
-            System.out.println("- It has ...");
-            System.out.println("- It is a/an ...");
-            String factPhrase = Inputer.nextString("");
+            String factPhrase = Inputer.nextString(
+                    "The sentence should be of the format: 'It can/has/is ...'.");
             Matcher matcher = FACT_PHRASE_PATTERN.matcher(factPhrase);
 
             if (matcher.matches()) {

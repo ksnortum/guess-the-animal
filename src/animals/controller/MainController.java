@@ -14,7 +14,7 @@ public class MainController {
     CommandLineParser commandLineParser = new CommandLineParser();
     Greeter greeter = new Greeter();
     FirstAnimalController firstAnimalController = new FirstAnimalController();
-    GameController gameController = new GameController();
+    MenuController menuController = new MenuController();
     TreeWriter writer = new TreeWriter();
     Salutations salutations = new Salutations();
 
@@ -31,12 +31,9 @@ public class MainController {
             tree = treeOptional.get();
         }
 
-        boolean done = false;
-
-        while (!done) {
-            done = gameController.execute(tree);
-        }
-
+        System.out.println("Welcome to the animal expert system!");
+        System.out.println();
+        menuController.execute(tree);
         writer.writeRoot(tree.getRoot(), fileType);
         salutations.goodbye();
     }

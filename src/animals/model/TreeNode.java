@@ -60,7 +60,6 @@ public class TreeNode {
         this.no = no;
     }
 
-    //@JsonIgnore
     public TreeNode getParent() {
         return parent;
     }

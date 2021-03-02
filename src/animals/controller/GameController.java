@@ -11,43 +11,50 @@ public class GameController {
     private final AnimalDistinguisher distinguisher = new AnimalDistinguisher();
     private final AnimalGetter getter = new AnimalGetter();
 
-    public boolean execute(YesNoTree tree) {
+    public void execute(YesNoTree tree) {
         System.out.println("You think of an animal, and I guess it.");
         Inputer.pause("Press enter when you're ready.");
-        TreeNode current = tree.resetTree();
-        boolean done = false;
-        boolean exitGame = false;
+        boolean playGame = true;
 
-        while (!done) {
-            if (current.hasAnAnimal()) {
-                Animal animal = current.getAnimal();
-                String prompt = String.format("Is it %s?", animal);
-                boolean isYes = Inputer.nextYesNo(prompt);
+        while(playGame) {
+            TreeNode current = tree.resetTree();
+            boolean done = false;
 
-                if (isYes) {
-                    System.out.println("Yay!  I guessed it!");
+            while (!done) {
+                if (current.hasAnAnimal()) {
+                    guessAnimal(tree, current);
+                    System.out.println();
+                    playGame = Inputer.nextYesNo("Do you like to play again?");
+                    done = true;
                 } else {
-                    Animal correctAnimal = getter.getAnimal("I give up. What animal do you have in mind?");
-                    distinguisher.distinguish(animal, correctAnimal, tree);
+                    current = askQuestion(tree, current);
                 }
-
-                System.out.println();
-                isYes = Inputer.nextYesNo("Would you like to play again?");
-                exitGame = !isYes;
-                done = true;
-            } else { // current node is a question (fact)
-                boolean isYes = Inputer.nextYesNo(current.getFact().getQuestion());
-
-                if (isYes) {
-                    tree.setCurrent(current.getYes());
-                } else {
-                    tree.setCurrent(current.getNo());
-                }
-
-                current = tree.getCurrent();
             }
         }
+    }
 
-        return exitGame;
+    private TreeNode askQuestion(YesNoTree tree, TreeNode current) {
+        boolean isYes = Inputer.nextYesNo(current.getFact().getQuestion());
+
+        if (isYes) {
+            tree.setCurrent(current.getYes());
+        } else {
+            tree.setCurrent(current.getNo());
+        }
+
+        return tree.getCurrent();
+    }
+
+    private void guessAnimal(YesNoTree tree, TreeNode current) {
+        Animal animal = current.getAnimal();
+        String prompt = String.format("Is it %s?", animal);
+        boolean isYes = Inputer.nextYesNo(prompt);
+
+        if (isYes) {
+            System.out.println("Yay!  I guessed it!");
+        } else {
+            Animal correctAnimal = getter.getAnimal("I give up. What animal do you have in mind?");
+            distinguisher.distinguish(animal, correctAnimal, tree);
+        }
     }
 }

@@ -38,4 +38,15 @@ public class Inputer {
     public static void pause(String prompt) {
         nextString(prompt);
     }
+
+    public static int nextInt(String prompt) {
+        if (!prompt.isBlank()) {
+            System.out.print(prompt);
+        }
+
+        int response = SCANNER.nextInt();
+        SCANNER.nextLine();
+
+        return response;
+    }
 }

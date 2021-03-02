@@ -8,10 +8,7 @@ public class FirstAnimalController {
 
     public Animal execute() {
         System.out.println("I want to learn about animals.");
-        Animal animal = getter.getAnimal("Which animal do you like most?");
-        System.out.println("Wonderful! I've learned so much about animals!");
-        System.out.println("Let's play a game!");
 
-        return animal;
+        return getter.getAnimal("Which animal do you like most?");
     }
 }
