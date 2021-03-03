@@ -8,10 +8,16 @@ import animals.model.YesNoTree;
 public class AnimalSearcher {
     private final AnimalGetter getter = new AnimalGetter();
 
+    // TODO do this without searching several times.  Maybe with a queue?
     public void searchForAnimal(YesNoTree tree) {
         Animal searchAnimal = getter.getAnimal("Enter the animal:");
-        System.out.printf("Facts about the %s:%n", searchAnimal.getName());
-        doAnimalSearch(tree.getRoot(), searchAnimal);
+
+        if (foundAnimalOnThisBranch(tree.getRoot(), searchAnimal)) {
+            System.out.printf("Facts about the %s:%n", searchAnimal.getName());
+            doAnimalSearch(tree.getRoot(), searchAnimal);
+        } else {
+            System.out.printf("No facts about the %s.%n", searchAnimal.getName());
+        }
     }
 
     private void doAnimalSearch(TreeNode node, Animal searchAnimal) {

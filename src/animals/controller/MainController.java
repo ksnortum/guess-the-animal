@@ -32,7 +32,6 @@ public class MainController {
         }
 
         System.out.println("Welcome to the animal expert system!");
-        System.out.println();
         menuController.execute(tree);
         writer.writeRoot(tree.getRoot(), fileType);
         salutations.goodbye();
