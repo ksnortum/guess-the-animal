@@ -108,7 +108,7 @@ public class TreeInfo {
 
     private static void depthStats(TreeNode node, TreeDepthStats stats, int depth) {
         if (node.hasAnAnimal()) {
-            stats.add(depth + 1);
+            stats.add(depth);
 
             return;
         }

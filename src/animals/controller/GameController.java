@@ -12,11 +12,11 @@ public class GameController {
     private final AnimalGetter getter = new AnimalGetter();
 
     public void execute(YesNoTree tree) {
-        System.out.println("You think of an animal, and I guess it.");
-        Inputer.pause("Press enter when you're ready.");
         boolean playGame = true;
 
         while(playGame) {
+            System.out.println("You think of an animal, and I guess it.");
+            Inputer.pause("Press enter when you're ready.");
             TreeNode current = tree.resetTree();
             boolean done = false;
 

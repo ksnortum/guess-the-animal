@@ -7,6 +7,8 @@ import animals.utils.TreeInfo;
 public class TreeStatsPrinter {
 
     public void printStats(YesNoTree tree) {
+        System.out.println("The Knowledge Tree stats");
+        System.out.println();
         TreeInfo.TreeNumberStats numberStats = TreeInfo.getNumberStats(tree);
         TreeInfo.TreeDepthStats depthStats = TreeInfo.getDepthStats(tree);
         Fact fact = tree.getRoot().getFact();
@@ -15,7 +17,7 @@ public class TreeStatsPrinter {
         System.out.printf("- total number of nodes        %d%n", numberStats.getNumberOfNodes());
         System.out.printf("- total number of animals      %d%n", numberStats.getNumberOfAnimals());
         System.out.printf("- total number of statements   %d%n", numberStats.getNumberOfFacts());
-        System.out.printf("- height of the tree           %d%n", TreeInfo.heightOfTree(tree));
+        System.out.printf("- height of the tree           %d%n", TreeInfo.heightOfTree(tree) - 1);
         System.out.printf("- minimum animal's depth       %d%n", depthStats.getMinimumDepth());
         System.out.printf("- average animal's depth       %s%n", depthStats.getAverageDepth());
     }
