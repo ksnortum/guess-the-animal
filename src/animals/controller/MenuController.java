@@ -6,8 +6,10 @@ import animals.logic.KnowledgeTreePrinter;
 import animals.logic.TreeStatsPrinter;
 import animals.model.YesNoTree;
 import animals.utils.Inputer;
+import animals.view.MenuView;
 
 public class MenuController {
+    MenuView menuView = new MenuView();
     GameController gameController = new GameController();
     AnimalPrinter animalPrinter = new AnimalPrinter();
     AnimalSearcher animalSearcher = new AnimalSearcher();
@@ -18,7 +20,7 @@ public class MenuController {
         int response = 1; // any non-zero number
 
         while (response != 0) {
-            printMenu();
+            menuView.printMenu();
             response = Inputer.nextInt("");
 
             switch(response) {
@@ -40,21 +42,9 @@ public class MenuController {
                 case 0:
                     break;
                 default:
-                    System.out.println("You must enter a number between 0 and 5");
+                    menuView.badOption();
             }
         }
 
-    }
-
-    private void printMenu() {
-        System.out.println();
-        System.out.println("What do you want to do:");
-        System.out.println();
-        System.out.println("1. Play the guessing game");
-        System.out.println("2. List of all animals");
-        System.out.println("3. Search for an animal");
-        System.out.println("4. Calculate statistics");
-        System.out.println("5. Print the Knowledge Tree");
-        System.out.println("0. Exit");
     }
 }

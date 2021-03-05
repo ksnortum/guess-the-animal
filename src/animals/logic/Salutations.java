@@ -1,21 +1,24 @@
 package animals.logic;
 
+import animals.utils.PropertiesUtils;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 public class Salutations {
+    private final ResourceBundle messagesBundle = PropertiesUtils.getMessagesBundle();
     private final Random random = new Random();
-
-    private final List<String> goodbyes = Arrays.asList(
-            "So long!", "Farewell!", "Auf Wiedersehen!", "Goodbye!",
-            "See you later!", "I'm outta here!", "Catch you on the flip side!",
-            "Happy trails!", "Buh bye!", "Peace out!", "Have a nice day!",
-            "See you soon!", "Bye!"
-    );
+    private final List<String> goodbyes = getGoodbyes();
 
     public void goodbye() {
         System.out.println();
         System.out.println(goodbyes.get(random.nextInt(goodbyes.size())));
+    }
+
+    private List<String> getGoodbyes() {
+        String farewellString = messagesBundle.getString("farewell");
+        return Arrays.asList(farewellString.split("\f"));
     }
 }
