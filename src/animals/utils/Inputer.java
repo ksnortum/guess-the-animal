@@ -1,12 +1,15 @@
 package animals.utils;
 
-import animals.logic.Response;
 import animals.model.ClarifyingPhrase;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Inputer {
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final Random random = new Random();
+    private static final ResourceBundle messagesBundle = PropertiesUtils.getMessagesBundle();
+    private static final List<String> clarifyingPhrase =
+            Arrays.asList(messagesBundle.getString("ask.again").split("\f"));
 
     public static String nextString(String prompt, boolean useLineSeparator) {
         if (!prompt.isBlank()) {
@@ -27,12 +30,12 @@ public class Inputer {
     public static boolean nextYesNo(String prompt) {
         String response = nextString(prompt);
 
-        while(!Response.isYes(response) && !Response.isNo(response)) {
-            prompt = ClarifyingPhrase.nextPhrase(); // = "yes or no";
+        while(!LanguageRules.isYes(response) && !LanguageRules.isNo(response)) {
+            prompt = clarifyingPhrase.get(random.nextInt(clarifyingPhrase.size()));
             response = nextString(prompt);
         }
 
-        return Response.isYes(response);
+        return LanguageRules.isYes(response);
     }
 
     public static void pause(String prompt) {
