@@ -1,45 +1,36 @@
 package animals.logic;
 
-import animals.model.Animal;
-import animals.model.Fact;
-import animals.model.Verb;
 import animals.model.YesNoTree;
 import animals.utils.Inputer;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import animals.utils.LanguageRules;
+import animals.view.AnimalDistinguisherView;
 
 public class AnimalDistinguisher {
-    // TODO get list of verbs from Verb?
-    private static final String FACT_PHRASE_REGEX = "^It (?<verb>can|has|is) (?<fact>[^.!?]+)[.!?]*$";
-    private static final Pattern FACT_PHRASE_PATTERN = Pattern.compile(FACT_PHRASE_REGEX, Pattern.CASE_INSENSITIVE);
+    private final AnimalDistinguisherView view = new AnimalDistinguisherView();
 
-    public void distinguish(Animal firstAnimal, Animal secondAnimal, YesNoTree tree) {
-        Fact fact = getFact(firstAnimal, secondAnimal);
-        boolean isYes = Inputer.nextYesNo(String.format("Is the statement correct for %s? ", secondAnimal));
-        System.out.println("Wonderful! I've learned so much about animals!");
+    public void distinguish(String firstAnimal, String secondAnimal, YesNoTree tree) {
+        String fact = getFact(firstAnimal, secondAnimal);
+        boolean isYes = Inputer.nextYesNo(view.getIsCorrect(secondAnimal));
+        view.printLearned();
+        view.printAnimalFact(firstAnimal, fact, !isYes);
+        view.printAnimalFact(secondAnimal, fact, isYes);
+        view.printDistinguishStatement();
+        view.printQuestionFact(fact);
         tree.insert(fact, secondAnimal, isYes);
     }
 
-    public Fact getFact(Animal firstAnimal, Animal secondAnimal) {
+    public String getFact(String firstAnimal, String secondAnimal) {
         boolean done = false;
-        Fact fact = null;
+        String fact = null;
 
         while (!done) {
-            System.out.printf("Specify a fact that distinguishes %s from %s.%n",
-                    firstAnimal, secondAnimal);
-            String factPhrase = Inputer.nextString(
-                    "The sentence should be of the format: 'It can/has/is ...'.");
-            Matcher matcher = FACT_PHRASE_PATTERN.matcher(factPhrase);
+            String factPhrase = Inputer.nextString(view.getSpecifyFactPrompt(firstAnimal, secondAnimal));
 
-            if (matcher.matches()) {
-                fact = new Fact(matcher.group("fact"), matcher.group("verb"));
+            if (LanguageRules.isStatementCorrect(factPhrase)) {
+                fact = LanguageRules.prepareStatement(factPhrase);
                 done = true;
             } else {
-                System.out.println("The examples of a statement:");
-                System.out.println(" - It can fly");
-                System.out.println(" - It has horn");
-                System.out.println(" - It is a mammal");
+                view.printFactFormatError();
             }
         }
 

@@ -1,21 +1,27 @@
 package animals.logic;
 
-import animals.model.Animal;
-import animals.model.Article;
 import animals.utils.Inputer;
+import animals.utils.LanguageRules;
+import animals.view.AnimalGetterView;
 
 public class AnimalGetter {
-    public Animal getAnimal(String prompt) {
-        String animalPhrase = "";
+    private final AnimalGetterView view = new AnimalGetterView();
 
-        while (animalPhrase.isBlank()) {
-            animalPhrase = Inputer.nextString(prompt);
+    public String getAnimal(String prompt) {
+        boolean done = false;
+        String animal = "";
+
+        while(!done) {
+            animal = Inputer.nextString(prompt);
+
+            if (LanguageRules.isAnimalCorrect(animal)) {
+                animal = LanguageRules.prepareAnimal(animal);
+                done = true;
+            } else {
+                view.printAnimalError();
+            }
         }
 
-        animalPhrase = animalPhrase.strip();
-        Article article = Article.parseArticle(animalPhrase);
-        String animalName = Article.stripArticle(animalPhrase);
-
-        return new Animal(animalName, article);
+        return animal;
     }
 }

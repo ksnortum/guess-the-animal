@@ -1,33 +1,35 @@
 package animals.logic;
 
-import animals.model.Animal;
 import animals.model.TreeNode;
 import animals.model.YesNoTree;
+import animals.view.AnimalPrinterView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class AnimalPrinter {
+    private final AnimalPrinterView view = new AnimalPrinterView();
+
     public void printAnimals(YesNoTree tree) {
-        System.out.println("Here are the animals I know:");
+        view.printAnimalsIKnow();
         List<String> animals = new ArrayList<>();
-        printOneAnimal(tree.getRoot(), animals);
+        addAnimal(tree.getRoot(), animals);
         animals.sort(Comparator.naturalOrder());
-        animals.forEach(animal -> System.out.printf(" - %s%n", animal));
+        view.printAllAnimals(animals);
     }
 
-    private void printOneAnimal(TreeNode node, List<String> animals) {
+    private void addAnimal(TreeNode node, List<String> animals) {
         if (node.getNo() != null) {
-            printOneAnimal(node.getNo(), animals);
+            addAnimal(node.getNo(), animals);
         }
 
         if (node.hasAnAnimal()) {
-            animals.add(node.getAnimal().getName());
+            animals.add(node.getData());
         }
 
         if (node.getYes() != null) {
-            printOneAnimal(node.getYes(), animals);
+            addAnimal(node.getYes(), animals);
         }
     }
 }

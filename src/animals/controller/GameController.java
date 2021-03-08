@@ -2,21 +2,24 @@ package animals.controller;
 
 import animals.logic.AnimalGetter;
 import animals.logic.AnimalDistinguisher;
-import animals.model.Animal;
 import animals.model.TreeNode;
 import animals.model.YesNoTree;
 import animals.utils.Inputer;
+import animals.utils.LanguageRules;
+import animals.view.GameControllerView;
 
 public class GameController {
     private final AnimalDistinguisher distinguisher = new AnimalDistinguisher();
     private final AnimalGetter getter = new AnimalGetter();
+    private final GameControllerView view = new GameControllerView();
 
     public void execute(YesNoTree tree) {
+        view.printLetsPlay();
         boolean playGame = true;
 
         while(playGame) {
-            System.out.println("You think of an animal, and I guess it.");
-            Inputer.pause("Press enter when you're ready.");
+            view.printThinkOfAnAnimal();
+            Inputer.pause(view.getEnterPrompt());
             TreeNode current = tree.resetTree();
             boolean done = false;
 
@@ -24,7 +27,7 @@ public class GameController {
                 if (current.hasAnAnimal()) {
                     guessAnimal(tree, current);
                     System.out.println();
-                    playGame = Inputer.nextYesNo("Do you like to play again?");
+                    playGame = Inputer.nextYesNo(view.getGameAgain());
                     done = true;
                 } else {
                     current = askQuestion(tree, current);
@@ -34,7 +37,7 @@ public class GameController {
     }
 
     private TreeNode askQuestion(YesNoTree tree, TreeNode current) {
-        boolean isYes = Inputer.nextYesNo(current.getFact().getQuestion());
+        boolean isYes = Inputer.nextYesNo(view.getQuestion(current.getData()));
 
         if (isYes) {
             tree.setCurrent(current.getYes());
@@ -46,14 +49,14 @@ public class GameController {
     }
 
     private void guessAnimal(YesNoTree tree, TreeNode current) {
-        Animal animal = current.getAnimal();
-        String prompt = String.format("Is it %s?", animal);
+        String animal = current.getData();
+        String prompt = LanguageRules.prepareGuessAnimal(animal);
         boolean isYes = Inputer.nextYesNo(prompt);
 
         if (isYes) {
-            System.out.println("Yay!  I guessed it!");
+            view.printGameWin();
         } else {
-            Animal correctAnimal = getter.getAnimal("I give up. What animal do you have in mind?");
+            String correctAnimal = getter.getAnimal(view.getGiveUp());
             distinguisher.distinguish(animal, correctAnimal, tree);
         }
     }

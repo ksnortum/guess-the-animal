@@ -3,7 +3,6 @@ package animals.controller;
 import animals.logic.CommandLineParser;
 import animals.logic.Greeter;
 import animals.logic.Salutations;
-import animals.model.Animal;
 import animals.model.YesNoTree;
 import animals.persistence.TreeLoader;
 import animals.persistence.TreeWriter;
@@ -27,7 +26,7 @@ public class MainController {
         YesNoTree tree = new YesNoTree();
 
         if (treeOptional.isEmpty()) {
-            Animal firstAnimal = firstAnimalController.execute();
+            String firstAnimal = firstAnimalController.execute();
             tree.firstAnimal(firstAnimal);
         } else {
             tree = treeOptional.get();

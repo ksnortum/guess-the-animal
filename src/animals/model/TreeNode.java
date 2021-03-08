@@ -10,38 +10,28 @@ import java.util.Objects;
 @JsonIdentityInfo(generator= ObjectIdGenerators.UUIDGenerator.class, property="id")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TreeNode {
-    private Fact fact;
-    private Animal animal;
+    private String data;
     private TreeNode parent;
     private TreeNode yes;
     private TreeNode no;
 
     public TreeNode() {
-        this(null, null, null);
+        this(null, null);
     }
 
-    public TreeNode(Fact fact, Animal animal, TreeNode parent) {
-        this.fact = fact;
-        this.animal = animal;
+    public TreeNode(String data, TreeNode parent) {
+        this.data = data;
         this.parent = parent;
         this.yes = null;
         this.no = null;
     }
 
-    public Fact getFact() {
-        return fact;
+    public String getData() {
+        return data;
     }
 
-    public void setFact(Fact fact) {
-        this.fact = fact;
-    }
-
-    public Animal getAnimal() {
-        return animal;
-    }
-
-    public void setAnimal(Animal animal) {
-        this.animal = animal;
+    public void setData(String data) {
+        this.data = data;
     }
 
     public TreeNode getYes() {
@@ -70,7 +60,7 @@ public class TreeNode {
 
     @JsonIgnore
     public boolean hasAnAnimal() {
-        return animal != null;
+        return yes == null && no == null;
     }
 
     @Override
@@ -79,20 +69,19 @@ public class TreeNode {
         if (o == null || getClass() != o.getClass()) return false;
         TreeNode node = (TreeNode) o;
 
-        return Objects.equals(fact, node.fact) && Objects.equals(animal, node.animal);
+        return Objects.equals(data, node.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fact, animal);
+        return Objects.hash(data);
     }
 
     @Override
     public String toString() {
-        return String.format("TreeNode{fact=%s, animal=%s, parent=%s, yes=%s, no=%s}",
-                fact,
-                animal,
-                parent == null ? "null" : parent.getFact(), // only facts have parents
+        return String.format("TreeNode{data=%s, parent=%s, yes=%s, no=%s}",
+                data,
+                parent == null ? "null" : parent.getData(),
                 yes == null ? "null" : yes.toString(),
                 no == null ? "null" : no.toString());
     }

@@ -10,9 +10,9 @@ import java.util.ResourceBundle;
 public class Salutations {
     private final ResourceBundle messagesBundle = PropertiesUtils.getMessagesBundle();
     private final Random random = new Random();
-    private final List<String> goodbyes = getGoodbyes();
 
     public void goodbye() {
+        List<String> goodbyes = getGoodbyes();
         System.out.println();
         System.out.println(goodbyes.get(random.nextInt(goodbyes.size())));
     }

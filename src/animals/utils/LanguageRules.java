@@ -31,7 +31,31 @@ public class LanguageRules {
         return doPatternAndReplace(candidate, "statement");
     }
 
+    public static String prepareNegativeStatement(String candidate) {
+        return doPatternAndReplace(candidate, "negative");
+    }
+
     public static String prepareQuestion(String candidate) {
+        return doPatternAndReplace(candidate, "question");
+    }
+
+    public static String prepareGuessAnimal(String candidate) {
+        return doPatternAndReplace(candidate, "guessAnimal");
+    }
+
+    public static String prepareAnimalDefiniteArticle(String candidate) {
+        return doPatternAndReplace(candidate, "definite");
+    }
+
+    public static String prepareAnimalFact(String candidate) {
+        return doPatternAndReplace(candidate, "animalFact");
+    }
+
+    public static String prepareAnimalFactNegative(String candidate) {
+        return doPatternAndReplace(candidate, "animalFactNegative");
+    }
+
+    public static String prepareQuestionFact(String candidate) {
         return doPatternAndReplace(candidate, "question");
     }
 
@@ -43,13 +67,11 @@ public class LanguageRules {
         List<PatternAndReplacement> patternList = getPatternsAndReplacements(base);
 
         for (PatternAndReplacement line : patternList) {
-            System.out.printf("pattern = %s, replace = %s%n", line.getPattern(), line.getReplacement()); // TODO debug
             if (candidate.matches(line.getPattern())) {
                 return candidate.replaceFirst(line.getPattern(), line.getReplacement());
             }
         }
 
-        System.out.println("Didn't match anything"); // TODO debug
         return "";
     }
 

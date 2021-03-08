@@ -3,6 +3,7 @@ package animals.persistence;
 import animals.logic.ObjectMapperGetter;
 import animals.model.TreeNode;
 import animals.model.YesNoTree;
+import animals.utils.FileUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -13,7 +14,7 @@ public class TreeLoader {
     private static final ObjectMapperGetter getter = new ObjectMapperGetter();
 
     public static Optional<YesNoTree> loadTree(String fileType) {
-        String fileName = "animals." + fileType;
+        String fileName = FileUtils.getFileName(fileType);
         Optional<ObjectMapper> mapperOptional = getter.getMapper(fileType);
 
         if (mapperOptional.isEmpty()) {

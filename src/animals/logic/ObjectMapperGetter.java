@@ -14,7 +14,6 @@ public class ObjectMapperGetter {
             case "xml": return Optional.of(new XmlMapper());
             case "yaml": return Optional.of(new YAMLMapper());
             default:
-                System.out.println("Bad file type");
                 return Optional.empty();
         }
     }

@@ -38,12 +38,12 @@ public class YesNoTree {
         this.current = current;
     }
 
-    public void firstAnimal(Animal animal) {
-        root = new TreeNode(null, animal, null);
+    public void firstAnimal(String animal) {
+        root = new TreeNode(animal, null);
         current = root;
     }
 
-    public void insert(Fact newFact, Animal newAnimal, boolean isYes) {
+    public void insert(String newFact, String newAnimal, boolean isYes) {
         if (current == null) {
             throw new IllegalStateException("You must call YesNoTree::firstAnimal(Animal) before insert");
         }
@@ -53,8 +53,8 @@ public class YesNoTree {
         }
 
         TreeNode oldParent = current.getParent();
-        TreeNode newFactNode = new TreeNode(newFact, null, oldParent);
-        TreeNode newAnimalNode = new TreeNode(null, newAnimal, newFactNode);
+        TreeNode newFactNode = new TreeNode(newFact, oldParent);
+        TreeNode newAnimalNode = new TreeNode(newAnimal, newFactNode);
         current.setParent(newFactNode);
 
         if (isYes) {

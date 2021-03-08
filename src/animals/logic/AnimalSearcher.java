@@ -1,46 +1,46 @@
 package animals.logic;
 
-import animals.model.Animal;
-import animals.model.Fact;
 import animals.model.TreeNode;
 import animals.model.YesNoTree;
+import animals.view.AnimalSearcherView;
 
 public class AnimalSearcher {
     private final AnimalGetter getter = new AnimalGetter();
+    private final AnimalSearcherView view = new AnimalSearcherView();
 
     // TODO do this without searching several times.  Maybe with a queue?
     public void searchForAnimal(YesNoTree tree) {
-        Animal searchAnimal = getter.getAnimal("Enter the animal:");
+        String searchAnimal = getter.getAnimal(view.getEnterTheAnimal());
 
         if (foundAnimalOnThisBranch(tree.getRoot(), searchAnimal)) {
-            System.out.printf("Facts about the %s:%n", searchAnimal.getName());
+            view.printFactsAbout(searchAnimal);
             doAnimalSearch(tree.getRoot(), searchAnimal);
         } else {
-            System.out.printf("No facts about the %s.%n", searchAnimal.getName());
+            view.printNoFactsAbout(searchAnimal);
         }
     }
 
-    private void doAnimalSearch(TreeNode node, Animal searchAnimal) {
+    private void doAnimalSearch(TreeNode node, String searchAnimal) {
         if (node.hasAnAnimal()) {
             return;
         }
 
-        Fact fact = node.getFact();
+        String fact = node.getData();
 
         if (foundAnimalOnThisBranch(node.getYes(), searchAnimal)) {
-            System.out.printf(" - It %s %s.%n", fact.getVerb().getPositiveForm(), fact.getFactText());
+            view.printPositiveFact(fact);
             doAnimalSearch(node.getYes(), searchAnimal);
         }
 
         if (foundAnimalOnThisBranch(node.getNo(), searchAnimal)) {
-            System.out.printf(" - It %s %s.%n", fact.getVerb().getNegativeForm(), fact.getFactText());
+            view.printNegativeFact(fact);
             doAnimalSearch(node.getNo(), searchAnimal);
         }
     }
 
-    private boolean foundAnimalOnThisBranch(TreeNode node, Animal searchAnimal) {
+    private boolean foundAnimalOnThisBranch(TreeNode node, String searchAnimal) {
         if (node.hasAnAnimal()) {
-            return searchAnimal.equals(node.getAnimal());
+            return searchAnimal.equals(node.getData());
         }
 
         return foundAnimalOnThisBranch(node.getYes(), searchAnimal) ||

@@ -1,14 +1,15 @@
 package animals.controller;
 
 import animals.logic.AnimalGetter;
-import animals.model.Animal;
+import animals.view.FirstAnimalControllerView;
 
 public class FirstAnimalController {
     private final AnimalGetter getter = new AnimalGetter();
+    private final FirstAnimalControllerView view = new FirstAnimalControllerView();
 
-    public Animal execute() {
-        System.out.println("I want to learn about animals.");
+    public String execute() {
+        view.printWantToLearn();
 
-        return getter.getAnimal("Which animal do you like most?");
+        return getter.getAnimal(view.getAskFavorite());
     }
 }

@@ -1,7 +1,5 @@
 package animals.utils;
 
-import animals.model.ClarifyingPhrase;
-
 import java.util.*;
 
 public class Inputer {

@@ -5,7 +5,7 @@ import java.util.Locale;
 public class CommandLineParser {
     public String parseFileType(String... args) {
         Locale locale = Locale.forLanguageTag(System.getProperty("user.language", "en"));
-        Locale.setDefault(locale); // So toLower(Locale.ROOT) will work
+        Locale.setDefault(locale); // So toLowerCase(Locale.ROOT) will work
         String fileType = "json";
         int paramIndex = 0;
 
