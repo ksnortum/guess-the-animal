@@ -1,0 +1,35 @@
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'application'
+apply plugin: 'java'
+
+dependencies {
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.2'
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.11.2'
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.11.2'
+}
+
+mainClassName = 'animals.Main'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/animals'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+}
+
+compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+run{
+    standardInput = System.in
+}
+
