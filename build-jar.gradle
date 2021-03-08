@@ -1,20 +1,24 @@
 // To execute, type:
-//   gradle --console plain run
+//   gradle clean build
 //
-// To change the serialization file type, type:
-//   gradle --console plain run --args="-type xml" // or yaml.  json is the default
+// Then:
+//   java -jar build/libs/guess-the-animal-all.jar
 //
-// See the application section for how to change languages (English is the default)
+// To change the language to Esperanto, type:
+//   java -Duser.language=eo -jar build/libs/guess-the-animal-all.jar 
+//
+// To change the serialization file type to xml (or yaml) type:
+//   java -jar build/libs/guess-the-animal-all.jar -type xml // or yaml
 
 plugins {
-    id 'application'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'java'
 }
 
 repositories {
     mavenCentral()
 }
 
-apply plugin: 'application'
 apply plugin: 'java'
 
 dependencies {
@@ -23,9 +27,14 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.11.2'
 }
 
-application {
-    mainClassName = 'animals.Main'
-    //applicationDefaultJvmArgs = ['-Duser.language=eo'] // uncomment to use the language Esperanto
+jar {
+	manifest {
+	    attributes 'Main-Class': 'animals.Main'
+	}
+}
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 sourceSets {
@@ -37,9 +46,5 @@ sourceSets {
             srcDir 'src/main/resources'
         }
     }
-}
-
-run {
-    standardInput = System.in
 }
 

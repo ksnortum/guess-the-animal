@@ -1,4 +1,9 @@
 build/
 out/
 test/
+gradle/
+.gradle/
+*.json
+*.xml
+*.yaml
 
